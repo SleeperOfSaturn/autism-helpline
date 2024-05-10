@@ -10,20 +10,22 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend">
   <style>
     a {
-      position: absolute;
-      top: 0;
-      left: 0;
+      position: fixed; /* Fixed position for back button */
+      top: 20px; /* Adjust top position as needed */
+      left: 20px; /* Adjust left position as needed */
       z-index: 1;
     }
 
     body {
       font-family: 'Lexend', sans-serif;
       text-align: center;
-      padding-top: 50px;
+      padding-top: 80px; /* Increased padding for back button */
       background-image: url("menu_bg.jpg");
       background-size: cover;
       backdrop-filter: blur(8px);
       margin: 0;
+      overflow-y: auto; /* Enable scrolling within the content */
+      -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
     }
 
     h1 {

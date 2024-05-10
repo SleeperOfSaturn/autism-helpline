@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend">
+  <style>
+    body {
+      font-family: 'Lexend', sans-serif;
+      text-align: center;
+      padding-top: 50px;
+      padding-left: 20px;
+      padding-right: 20px;
+      background: url("menu_bg.jpg") no-repeat center center fixed;
+      background-size: cover;
+      backdrop-filter: blur(8px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow-y: auto;
+    }
+
+    h1 {
+      font-size: 3rem; /* Larger header font size */
+      color: #FFFFFF;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    p {
+      font-size: 1.5rem; /* Larger paragraph font size */
+      color: #FFFFFF;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 0.5s;
+    }
+
+    .custom-button {
+      display: inline-block;
+      padding: 20px 50px; /* Increased button padding */
+      font-size: 2rem; /* Larger button font size */
+      border: none;
+      color: #FFFFFF;
+      cursor: pointer;
+      border-radius: 15px; /* Rounded button corners */
+      box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+    }
+
+    .button-yellow {
+      background-color: #ffc107; /* Soft, vibrant yellow color */
+    }
+
+    .button-red {
+      background-color: #ff6347; /* Soft, vibrant red color */
+    }
+
+    .button-green {
+      background-color: #4caf50; /* Soft, vibrant green color */
+    }
+
+    .button-blue {
+      background-color: #1e90ff; /* Soft, vibrant blue color */
+    }
+
+    .custom-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+      filter: brightness(90%); /* Slight darkening on hover */
+    }
+
+    .button-yellow:hover {
+      background-color: #ffb400; /* Darker shade of yellow on hover */
+    }
+
+    .button-red:hover {
+      background-color: #ff4c36; /* Darker shade of red on hover */
+    }
+
+    .button-green:hover {
+      background-color: #459f3e; /* Darker shade of green on hover */
+    }
+
+    .button-blue:hover {
+      background-color: #1862b0; /* Darker shade of blue on hover */
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Help yourself!</h1>
+  <br>
+  <button type="button" class="custom-button button-yellow" onclick="location.href = 'main.html'">Back To Homepage</button>
+  <br>
+  <br>
+  <br>
+  <button type="button" class="custom-button button-red" onclick="location.href = 'minigames.html'">Cool Puzzles</button>
+  <br>
+  <br>
+  <br>
+  <button type="button" class="custom-button button-green" onclick="location.href = 'autism_types.html'">Understanding Yourself</button>
+  <br>
+  <br>
+  <br>
+  <button type="button" class="custom-button button-blue" onclick="location.href = 'https://www.autismspeaks.org/speech-therapy'">Speech and Language Therapy</button>
+  <br>
+  <br>
+  <br>
+  <button type="button" class="custom-button button-yellow" onclick="location.href = 'https://www.autismspeaks.org/social-skills-and-autism'">Social Skill Training</button>
+  <br>
+  <br>
+  <br>
+  <button type="button" class="custom-button button-red" onclick="location.href = 'https://www.autismspeaks.org/cognitive-behavioral-therapy-cbt'">Cognitive Behavioral Therapy</button>
+</body>
+
+</html>

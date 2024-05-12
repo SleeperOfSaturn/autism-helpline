@@ -15,6 +15,8 @@
       background-image: url("minigames_bg.jpg");
       background-size: cover;
       overflow: hidden;
+      -webkit-backdrop-filter: blur(8px) brightness(0.6);
+      backdrop-filter: blur(8px) brightness(0.6);
     }
 
     .back-button {
@@ -83,8 +85,8 @@
       cols: 10, // Number of columns in the crossword
       theme: 'light', // Theme of the crossword (light/dark)
       entries: [
-        { clue: '1 Across', answer: 'HELLO', row: 0, col: 0, orientation: 'across' },
-        { clue: '2 Down', answer: 'WORLD', row: 0, col: 0, orientation: 'down' },
+        {clue: '1 Across', answer: 'HELLO', row: 0, col: 0, orientation: 'across'},
+        {clue: '2 Down', answer: 'WORLD', row: 0, col: 0, orientation: 'down'},
         // Add more entries as needed
       ],
     };

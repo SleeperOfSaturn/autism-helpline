@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jigsaw Puzzle</title>
+    <style>
+        /* Your existing styles */
+        body {
+            font-family: 'Lexend', sans-serif;
+            text-align: center;
+            padding-top: 50px;
+            padding-left: 20px;
+            padding-right: 20px;
+            /* Full-screen background image */
+            background: url("main_bg.jpg") no-repeat center center fixed;
+            background-size: cover;
+            backdrop-filter: blur(8px) brightness(0.6);
+            -webkit-backdrop-filter: blur(8px) brightness(0.6);
+            /* Optional: adjust based on your preference */
+            /* Positioning for full screen */
+            top: 0;
+            left: 0;
+            right: 0;
+
+            bottom: 0;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #FFFFFF;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #FFFFFF;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        .custom-button {
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border: none;
+            background-color: #ff7f50;
+            color: #FFFFFF;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+        }
+
+        .custom-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+            background-color: #ff6347;
+        }
+
+        /* Keyframes for fade-in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px auto;
+            max-width: 300px;
+        }
+
+        .item {
+            border: 1px solid #999;
+            overflow: hidden;
+            height: 100px;
+            width: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #FFFFFF;
+            /* Set the text color to white */
+        }
+
+        .item span {
+            font-size: 36px;
+            /* Larger font size for numbers */
+        }
+
+        .item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #winPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #FFFFFF;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+
+        #closeBtn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Puzzle Game</h1>
+    <p>Drag and drop the numbers to solve the puzzle!</p>
+    <div class="container" id="puzzleContainer"></div>
+    <button class="custom-button" onclick="shufflePuzzle()">Shuffle</button>
+
+    <div id="winPopup">
+        <span id="closeBtn" onclick="closePopup()">X</span>
+        <h1>Congratulations!</h1>
+        <p>You solved the puzzle.</p>
+        <button class="custom-button" onclick="closePopup()">Close</button>
+    </div>
+
+    <script>
+        const numbers = [1, 2, 3, 4, 5, 6, 7, 8, ""];
+        const container = document.getElementById("puzzleContainer");
+        const winPopup = document.getElementById("winPopup");
+
+        function initPuzzle() {
+            container.innerHTML = "";
+            numbers.forEach(num => {
+                const item = document.createElement("div");
+                item.classList.add("item");
+
+                const numberSpan = document.createElement("span");
+                numberSpan.classList.add("number");
+                numberSpan.innerText = num === "" ? "" : num;
+
+                item.appendChild(numberSpan);
+                item.setAttribute("draggable", "true");
+                item.setAttribute("ondragstart", "drag(event)");
+                container.appendChild(item);
+            });
+        }
+
+        function shufflePuzzle() {
+            for (let i = numbers.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+            }
+            initPuzzle();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text/plain", ev.target.innerText);
+        }
+
+        container.addEventListener("drop", drop);
+        container.addEventListener("dragover", allowDrop);
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text/plain");
+            const emptyIndex = numbers.indexOf("");
+            const currentIndex = numbers.indexOf(parseInt(data));
+
+            if (currentIndex === emptyIndex - 1 ||
+                currentIndex === emptyIndex + 1 ||
+                currentIndex === emptyIndex - 3 ||
+                currentIndex === emptyIndex + 3) {
+                numbers[emptyIndex] = parseInt(data);
+                numbers[currentIndex] = "";
+                initPuzzle();
+            }
+
+            if (isPuzzleSolved()) {
+                winPopup.style.display = "block";
+            }
+        }
+
+        function isPuzzleSolved() {
+            for (let i = 0; i < numbers.length - 1; i++) {
+                if (numbers[i] !== i + 1) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function closePopup() {
+            winPopup.style.display = "none";
+        }
+
+        initPuzzle();
+    </script>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</body>
+
+</html>

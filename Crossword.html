@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Search Puzzle</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Lexend', sans-serif;
+        text-align: center;
+        background: url("main_bg.jpg") no-repeat center center fixed;
+        background-size: cover;
+        backdrop-filter: blur(8px) brightness(0.6);
+        -webkit-backdrop-filter: blur(8px) brightness(0.6);
+    }
+    .word-search {
+        display: grid;
+        grid-template-columns: repeat(10, 40px);
+        gap: 2px;
+        background-color: white;
+        border: 2px solid black;
+        padding: 10px;
+    }
+    .cell {
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        line-height: 40px;
+        font-size: 20px;
+        background-color: #e0e0e0;
+        border: 1px solid #ccc;
+        user-select: none;
+    }
+    .highlight {
+        background-color: lightgreen;
+    }
+</style>
+</head>
+<body>
+<div class="word-search" id="wordSearch"></div>
+<script>
+    const words = ["javascript", "html", "css", "coding", "programming", "web", "development"];
+    const grid = document.getElementById('wordSearch');
+
+    const gridSize = 10;
+    const letters = 'abcdefghijklmnopqrstuvwxyz';
+
+    // Fill the grid with random letters
+    for (let i = 0; i < gridSize * gridSize; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.textContent = letters[Math.floor(Math.random() * letters.length)];
+        grid.appendChild(cell);
+    }
+
+    // Insert words horizontally or vertically
+    words.forEach(word => {
+        const orientation = Math.random() < 0.5 ? 'horizontal' : 'vertical';
+        const startRow = Math.floor(Math.random() * gridSize);
+        const startCol = Math.floor(Math.random() * gridSize);
+        let cellIndex = startRow * gridSize + startCol;
+
+        if (orientation === 'horizontal') {
+            if (startCol + word.length <= gridSize) {
+                for (let i = 0; i < word.length; i++) {
+                    const cell = grid.children[cellIndex + i];
+                    cell.textContent = word[i];
+                    cell.dataset.word = word;
+                }
+            } else {
+                for (let i = 0; i < word.length; i++) {
+                    const cell = grid.children[cellIndex - i];
+                    cell.textContent = word[i];
+                    cell.dataset.word = word;
+                }
+            }
+        } else {
+            if (startRow + word.length <= gridSize) {
+                for (let i = 0; i < word.length; i++) {
+                    const cell = grid.children[cellIndex + i * gridSize];
+                    cell.textContent = word[i];
+                    cell.dataset.word = word;
+                }
+            } else {
+                for (let i = 0; i < word.length; i++) {
+                    const cell = grid.children[cellIndex - i * gridSize];
+                    cell.textContent = word[i];
+                    cell.dataset.word = word;
+                }
+            }
+        }
+    });
+
+    // Add event listener to highlight words
+    grid.addEventListener('click', (event) => {
+        const clickedCell = event.target;
+        if (clickedCell.classList.contains('cell')) {
+            const word = clickedCell.dataset.word;
+            if (word) {
+                const cells = Array.from(grid.children);
+                cells.forEach(cell => {
+                    if (cell.dataset.word === word) {
+                        cell.classList.add('highlight');
+                    }
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>

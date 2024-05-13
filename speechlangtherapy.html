@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speech Recognition Game</title>
+    <title>Speech And Language Therapy</title>
     <style>
         /* Your provided styles */
         body {
@@ -87,8 +88,15 @@
         }
     </style>
 </head>
+
 <body>
-    <h1>Speech Recognition Game</h1>
+    <h1>Speech And Language Therapy</h1>
+    <br>
+    <br>
+    <p>The following is a cool game which displays a word. You can say that word and try to pronounce it properly, or
+        you can click on the speak word button to listen to the pronunciation before trying it</p>
+    <br>
+    <br>
     <div id="wordDisplay"></div>
     <button class="custom-button" onclick="speakWord()">Speak Word</button>
     <button class="custom-button" onclick="startGame()">Start Game</button>
@@ -133,7 +141,7 @@
             }
         }
 
-        recognition.onresult = function(event) {
+        recognition.onresult = function (event) {
             let spokenWord = event.results[0][0].transcript.toLowerCase();
             let targetWord = selectedWords[currentIndex].toLowerCase();
 
@@ -159,9 +167,10 @@
             }
         }
     </script>
-<br>
-<br>
-<br>
-<br>
+    <br>
+    <br>
+    <br>
+    <br>
 </body>
+
 </html>

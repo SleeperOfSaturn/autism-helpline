@@ -4,49 +4,164 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speech Recognition Game</title>
+    <style>
+        /* Your provided styles */
+        body {
+            font-family: 'Lexend', sans-serif;
+            text-align: center;
+            padding-top: 50px;
+            padding-left: 20px;
+            padding-right: 20px;
+            /* Full-screen background image */
+            background: url("main_bg.jpg") no-repeat center center fixed;
+            background-size: cover;
+            backdrop-filter: blur(8px) brightness(0.6);
+            -webkit-backdrop-filter: blur(8px) brightness(0.6);
+            /* Optional: adjust based on your preference */
+            /* Positioning for full screen */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #FFFFFF;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #FFFFFF;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        #wordDisplay {
+            font-size: 1.2rem;
+            color: #FFFFFF;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        .custom-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border: none;
+            background-color: #ff7f50;
+            /* Soft, vibrant orange color */
+            color: #FFFFFF;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            /* Soft shadow */
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+        }
+
+        .custom-button:hover {
+            transform: translateY(-3px);
+            /* Lifts the button slightly on hover */
+            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+            /* Enhances the shadow on hover */
+            background-color: #ff6347;
+            /* Brighter orange color on hover */
+        }
+
+        /* Keyframes for fade-in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
 <body>
     <h1>Speech Recognition Game</h1>
     <div id="wordDisplay"></div>
-    <button onclick="startGame()">Start Game</button>
+    <button class="custom-button" onclick="speakWord()">Speak Word</button>
+    <button class="custom-button" onclick="startGame()">Start Game</button>
 
     <script>
-        let words = ['apple', 'banana', 'cat', 'dog', 'elephant'];
+        // Your JavaScript code here...
+        let words = ['apple', 'banana', 'cat', 'dog', 'elephant', 'fish', 'giraffe', 'horse', 'ice cream', 'jellyfish',
+            'kangaroo', 'lion', 'monkey', 'noodle', 'octopus', 'penguin', 'quail', 'rabbit', 'snake', 'tiger', 'umbrella',
+            'violin', 'whale', 'xylophone', 'yak', 'zebra', 'carrot', 'dragon', 'elephant', 'frog', 'guitar', 'hippo',
+            'igloo', 'jaguar', 'kite', 'lemon', 'mango', 'nut', 'ocean', 'peacock', 'queen', 'rose', 'sun', 'tree', 'unicorn',
+            'violet', 'watermelon', 'xylophone', 'yogurt', 'zeppelin'];
+
+        let selectedWords = [];
         let currentIndex = 0;
         let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
-        
+        let speechSynthesis = window.speechSynthesis;
+        let utterance = new SpeechSynthesisUtterance();
+
         recognition.lang = 'en-US';
         recognition.interimResults = false;
-        
-        recognition.onresult = function(event) {
-            let spokenWord = event.results[0][0].transcript.toLowerCase();
-            let targetWord = words[currentIndex].toLowerCase();
-            
-            if (spokenWord === targetWord) {
-                alert('Correct! Moving to the next word.');
-                currentIndex++;
-                if (currentIndex < words.length) {
-                    displayNextWord();
-                } else {
-                    alert('Congratulations! You completed the game.');
-                }
-            } else {
-                alert('Incorrect. Try again!');
+
+        function selectRandomWords() {
+            let tempWords = words.slice(); // Create a copy of the words array
+            for (let i = 0; i < 10; i++) {
+                let randomIndex = Math.floor(Math.random() * tempWords.length);
+                selectedWords.push(tempWords[randomIndex]);
+                tempWords.splice(randomIndex, 1); // Remove the selected word to avoid duplicates
             }
         }
-        
+
         function displayNextWord() {
-            document.getElementById('wordDisplay').textContent = words[currentIndex];
+            document.getElementById('wordDisplay').textContent = selectedWords[currentIndex];
         }
-        
+
         function startGame() {
-            if (currentIndex < words.length) {
+            selectRandomWords();
+            if (currentIndex < selectedWords.length) {
                 displayNextWord();
                 recognition.start();
             } else {
                 alert('No more words to display.');
             }
         }
+
+        recognition.onresult = function(event) {
+            let spokenWord = event.results[0][0].transcript.toLowerCase();
+            let targetWord = selectedWords[currentIndex].toLowerCase();
+
+            if (spokenWord === targetWord) {
+                currentIndex++;
+                if (currentIndex === selectedWords.length) {
+                    alert('Congratulations! You pronounced all words correctly and won the game.');
+                } else {
+                    alert('Correct! Moving to the next word.');
+                    displayNextWord();
+                }
+            } else {
+                alert('Incorrect. Try again!');
+            }
+        }
+
+        function speakWord() {
+            if (currentIndex < selectedWords.length) {
+                utterance.text = selectedWords[currentIndex];
+                speechSynthesis.speak(utterance);
+            } else {
+                alert('No word to speak.');
+            }
+        }
     </script>
+<br>
+<br>
+<br>
+<br>
 </body>
 </html>

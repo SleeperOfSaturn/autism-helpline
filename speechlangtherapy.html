@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Recognition Game</title>
+</head>
+<body>
+    <h1>Speech Recognition Game</h1>
+    <div id="wordDisplay"></div>
+    <button onclick="startGame()">Start Game</button>
+
+    <script>
+        let words = ['apple', 'banana', 'cat', 'dog', 'elephant'];
+        let currentIndex = 0;
+        let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+        
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        
+        recognition.onresult = function(event) {
+            let spokenWord = event.results[0][0].transcript.toLowerCase();
+            let targetWord = words[currentIndex].toLowerCase();
+            
+            if (spokenWord === targetWord) {
+                alert('Correct! Moving to the next word.');
+                currentIndex++;
+                if (currentIndex < words.length) {
+                    displayNextWord();
+                } else {
+                    alert('Congratulations! You completed the game.');
+                }
+            } else {
+                alert('Incorrect. Try again!');
+            }
+        }
+        
+        function displayNextWord() {
+            document.getElementById('wordDisplay').textContent = words[currentIndex];
+        }
+        
+        function startGame() {
+            if (currentIndex < words.length) {
+                displayNextWord();
+                recognition.start();
+            } else {
+                alert('No more words to display.');
+            }
+        }
+    </script>
+</body>
+</html>
